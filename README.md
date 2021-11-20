@@ -1,4 +1,8 @@
 # Tag
+
+## THE CODE ABUSES STATIC CALLS!
+As I do not have the time, I will not be fixing this; if anyone is forking this, however, please re-write the functions to not abuse static.
+
 A simple tag minigame plugin for Bukkit/Spigot/PaperSpigot
 
 Features:
