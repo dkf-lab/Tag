@@ -1,0 +1,22 @@
+main: com.doublehelix.TagPlugin
+name: Tag
+version: 1.1-SNAPSHOT
+description: Tag, forked by DKFLAB
+authors: [doublehelix457, dkflab]
+commands:
+  tag:
+    description: main tag command
+permissions:
+  tag:
+    children:
+      tag.create: true
+      tag.start: true
+      tag.stop: true
+      tag.join: true
+      tag.leave: true
+      tag.kick: true
+      tag.setspawn: true
+  tag.sign:
+    children:
+      tag.sign.create: true
+      tag.sign.use: true

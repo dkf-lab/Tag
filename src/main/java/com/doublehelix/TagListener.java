@@ -15,8 +15,19 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class TagListener implements Listener {
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerTeleport(PlayerTeleportEvent e) {
+        if (TagManager.getTaggers().contains(e.getPlayer())) {
+            if (!TagManager.checkForTeleport) {
+                e.setCancelled(true);
+                e.getPlayer().sendMessage(TagUtil.color("&cYou can't teleport during a game of Tag!"));
+            }
+        }
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent event)
@@ -45,16 +56,14 @@ public class TagListener implements Listener {
                     TagUtil.sendTagMessage(damager, ChatColor.RED + "This user is not part of the tag game!");
                 }
             }
-            else if(TagManager.getTaggers().contains(damager) && !TagManager.getTaggers().contains(damaged)) {
+            else if (TagManager.getTaggers().contains(damager) && !TagManager.getTaggers().contains(damaged)) {
                 event.setCancelled(true);
                 TagUtil.sendTagMessage(damager, ChatColor.RED + "You can't hit this user, they are in a game of tag!");
             } else {
                 if(!TagManager.isGameRunning() && TagManager.getTaggers().contains(damager)){
-                    TagUtil.sendTagMessage(damager, ChatColor.RED + "The game hasnt started yet!");
+                    TagUtil.sendTagMessage(damager, ChatColor.RED + "The game hasn't started yet!");
                     return;
                 }
-                    TagUtil.sendTagMessage(damager, ChatColor.RED + "You're not it, you can't tag someone!");
-                    event.setDamage(0);
             }
         }
     }
@@ -83,10 +92,10 @@ public class TagListener implements Listener {
     public void onSignChange(SignChangeEvent event)
     {
         if ((event.getPlayer().hasPermission("tag.sign.create")) &&
-                (event.getLine(0).equalsIgnoreCase("[join tag]")))
+                (event.getLine(0).equalsIgnoreCase("[tag]")))
         {
             TagUtil.sendTagMessage(event.getPlayer(), "You have successfully created a join sign.");
-            event.setLine(0, "[Join tag]");
+            event.setLine(0, "[Tag]");
             event.setLine(1, ChatColor.COLOR_CHAR + "2Right Click");
             event.setLine(2, ChatColor.COLOR_CHAR + "2to");
             event.setLine(3, ChatColor.COLOR_CHAR + "2Join tag");
@@ -118,21 +127,16 @@ public class TagListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event)
     {
-        if ((event.getClickedBlock() != null) && ((event.getClickedBlock().getState() instanceof Sign)) && (((Sign)event.getClickedBlock().getState()).getLine(0).equalsIgnoreCase("[join tag]"))) {
+        if ((event.getClickedBlock() != null) && ((event.getClickedBlock().getState() instanceof Sign)) && (((Sign)event.getClickedBlock().getState()).getLine(0).equalsIgnoreCase("[tag]"))) {
             if (event.getPlayer().hasPermission("tag.sign.use"))
             {
                 if(TagManager.getTaggers().contains(event.getPlayer())){
                     TagUtil.sendTagMessage(event.getPlayer(), ChatColor.RED + "You are already in this game of tag!");
                     return;
                 }
-                if (TagManager.doesGameExsist())
-                {
+                if (TagManager.doesGameExist()) {
                     TagUtil.sendTagMessage(event.getPlayer(),"You have successfully joined the tag game." );
                     TagManager.addPlayerToGame(event.getPlayer());
-                }
-                else
-                {
-                    TagUtil.sendTagMessage(event.getPlayer(), ChatColor.RED + "There is not tag game in progress, ask a staff member to start a game.");
                 }
             }
             else {

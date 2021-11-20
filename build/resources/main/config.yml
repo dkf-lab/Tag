@@ -1,0 +1,6 @@
+#Location of Tag arena. Set here or with /tag setspawn
+
+World: world
+x: 1
+y: 1
+z: 1

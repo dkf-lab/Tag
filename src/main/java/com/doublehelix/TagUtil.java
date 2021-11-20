@@ -32,8 +32,11 @@ public class TagUtil {
     public static Location getTagSpawn()
     {
         World main = Bukkit.getServer().getWorld(TagPlugin.inst().getConfig().getString("World"));
-        Location arena = new Location(main, TagPlugin.inst().getConfig().getInt("x"), TagPlugin.inst().getConfig().getInt("y"), TagPlugin.inst().getConfig().getInt("z"));
-        return arena;
+        if (main == null) {
+            return new Location(Bukkit.getServer().getWorlds().get(0), TagPlugin.inst().getConfig().getInt("x"), TagPlugin.inst().getConfig().getInt("y"), TagPlugin.inst().getConfig().getInt("z"));
+        } else {
+            return new Location(main, TagPlugin.inst().getConfig().getInt("x"), TagPlugin.inst().getConfig().getInt("y"), TagPlugin.inst().getConfig().getInt("z"));
+        }
     }
 
     public static void setTagSpawn(Location loc)
@@ -50,6 +53,10 @@ public class TagUtil {
         {
             e.printStackTrace();
         }
+    }
+
+    public static String color(String s) {
+        return ChatColor.translateAlternateColorCodes('&',s);
     }
 
     public static List<Player> getPercentageOfMap(Map<Player, Boolean> playermap, int percentage)
@@ -78,12 +85,6 @@ public class TagUtil {
             }
         }
         return resultlist;
-    }
-
-    public static void sendTagMessageToAll(String message){
-        for(Player p : Bukkit.getOnlinePlayers()){
-            sendTagMessage(p, message);
-        }
     }
 
     public static void sendMessageToPlayers(String message){

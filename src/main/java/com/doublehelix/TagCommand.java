@@ -16,34 +16,30 @@ public class TagCommand implements CommandExecutor {
         Player player = (Player) sender;
         if (command.getName().equalsIgnoreCase("tag"))
         {
-            if (args.length == 0)
-            {
-                TagUtil.sendTagMessage(player,ChatColor.GOLD + "You are running doublehelix457's tag version 1.1-SNAPSHOT.");
+            // tag
+            if (args.length == 0) {
                 TagUtil.sendTagMessage(player,ChatColor.GOLD + "Usage of tag command: /tag <option>");
                 return true;
             }
-            if(args[0].equalsIgnoreCase("create")){
+            // tag create
+            if(args[0].equalsIgnoreCase("create")) {
                 if(sender.hasPermission("tag.create")) {
-                    if (!TagManager.doesGameExsist() && !TagManager.isGameRunning()) {
-                        TagManager.createGame(player);
+                    if (!TagManager.doesGameExist() && !TagManager.isGameRunning()) {
+                        TagManager.createGame();
                         return true;
                     } else {
-                        TagUtil.sendTagMessage(player, ChatColor.RED + "There is already an exsisting game of Tag!");
+                        TagUtil.sendTagMessage(player, ChatColor.RED + "There is already an existing game of Tag!");
                         return true;
                     }
                 }
                 TagUtil.sendTagMessage(player, ChatColor.RED + "You don't have permission to create a game!");
                 return true;
             }
+            // tag start
             if (args[0].equalsIgnoreCase("start"))
             {
                 if (sender.hasPermission("tag.start"))
                 {
-                    if(TagManager.isGameRunning())
-                    {
-                        TagUtil.sendTagMessage(player,ChatColor.RED + "There is already a game of tag started.");
-                        return true;
-                    }
                     String msg = TagManager.startGame();
                     if(msg != null){
                         TagUtil.sendTagMessage(player, msg);
@@ -53,11 +49,12 @@ public class TagCommand implements CommandExecutor {
                 TagUtil.sendTagMessage(player, ChatColor.RED + "You don't have permission to start a game!");
                 return true;
             }
+            // tag stop
             if (args[0].equalsIgnoreCase("stop"))
             {
                 if (sender.hasPermission("tag.stop"))
                 {
-                    if(!TagManager.doesGameExsist() || !TagManager.isGameRunning()) {
+                    if(!TagManager.doesGameExist() || !TagManager.isGameRunning()) {
                         TagUtil.sendTagMessage(player, ChatColor.RED + "There is no running game to stop.");
                         return true;
                     }
@@ -67,11 +64,12 @@ public class TagCommand implements CommandExecutor {
                 TagUtil.sendTagMessage(player, ChatColor.RED + "You don't have permission to stop the game!");
                 return true;
             }
+            // tag join
             if (args[0].equalsIgnoreCase("join"))
             {
                 if (sender.hasPermission("tag.join"))
                 {
-                    if(!TagManager.doesGameExsist()) {
+                    if(!TagManager.doesGameExist()) {
                         TagUtil.sendTagMessage(player, ChatColor.RED + "There is no running game of tag. Ask a staff member to create a game.");
                         return true;
                     }
@@ -87,6 +85,7 @@ public class TagCommand implements CommandExecutor {
                 TagUtil.sendTagMessage(player, ChatColor.RED + "You don't have permission to join the game!");
                 return true;
             }
+            // tag leave
             if (args[0].equalsIgnoreCase("leave"))
             {
                 if (sender.hasPermission("tag.leave"))
@@ -102,6 +101,7 @@ public class TagCommand implements CommandExecutor {
                 TagUtil.sendTagMessage(player, ChatColor.RED + "You don't have permission to leave the game!");
                 return true;
             }
+            // tag setspawn
             if (args[0].equalsIgnoreCase("setspawn"))
             {
                 if (sender.hasPermission("tag.setspawn"))
@@ -111,14 +111,15 @@ public class TagCommand implements CommandExecutor {
                     TagUtil.sendTagMessage(player, ChatColor.RED + "The tag location has been set!");
                     return true;
                 }
-                TagUtil.sendTagMessage(player, ChatColor.RED + "You don't have permission to stop the game!");
+                TagUtil.sendTagMessage(player, ChatColor.RED + "You don't have permission!");
                 return true;
             }
+            // tag kick
             if (args[0].equalsIgnoreCase("kick"))
             {
                 if (sender.hasPermission("tag.kick"))
                 {
-                    if(!TagManager.doesGameExsist() || !TagManager.isGameRunning()){
+                    if(!TagManager.doesGameExist() || !TagManager.isGameRunning()){
                         TagUtil.sendTagMessage(player, ChatColor.RED + "There is no game of tag running!");
                     }
                     if (args.length == 1)
@@ -140,11 +141,6 @@ public class TagCommand implements CommandExecutor {
                     return false;
                 }
                 TagUtil.sendTagMessage(player, ChatColor.RED + "You don't have permission to stop the game!");
-                return true;
-            }
-            if (args[0].equalsIgnoreCase("version"))
-            {
-                TagUtil.sendTagMessage(player, ChatColor.GOLD + "Tag Version: 1.1-SNAPSHOT by doublehelix457");
                 return true;
             }
             return false;

@@ -49,16 +49,7 @@ public class TagPlugin extends JavaPlugin {
         getCommand("tag").setExecutor(new TagCommand());
         Bukkit.getPluginManager().registerEvents(new TagListener(), TagPlugin.inst());
         this.log.info("[tag] tag plugin succesfully enabled!");
-        if(!config.getString("World").contains(Bukkit.getServer().getWorlds().get(0).getName())){
-            World defaultWorld = Bukkit.getServer().getWorlds().get(0);
-            config.set("World", Bukkit.getServer().getWorlds().get(0).getName());
-            config.set("x", defaultWorld.getSpawnLocation().getBlockX());
-            config.set("y", defaultWorld.getSpawnLocation().getBlockY());
-            config.set("z", defaultWorld.getSpawnLocation().getBlockZ());
-            saveConfig();
-        }else {
-            saveDefaultConfig();
-        }
+        saveDefaultConfig();
     }
 
     public void onDisable()
