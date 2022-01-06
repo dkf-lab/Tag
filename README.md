@@ -49,6 +49,3 @@ Before creating an issue tracker issue, I am currently working on the following.
 - Needs Bungee Support  
 - Needs Multiple Lobbies/ Games running at the same time  
 - Needs Default Permissions (Currently Requires a Permissions Plugin)  
-
-Consider Donating? :P  
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WGXM3MA4AMJHQ)
